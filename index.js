@@ -2,29 +2,26 @@ import { propertyForSale } from "./getproperties/propertyForSale.js"
 import { placeholder } from "./getproperties/placeholder.js";
 
 const container = document.querySelector(".container")
-const main = document.querySelector(".main")
- 
 
-const {propertyLocation, priceGBP, roomsM2, Comment,image} = propertyForSale
-
-const getPropertyHtml = () => {
+const getPropertyHtml = ( propertyForSale= [placeholder]) => {
     let sQms
-    for (let i = 0; i < propertyForSale.length; i++){
-         sQms = propertyForSale[i].roomsM2.reduce((acc,num) => acc + num, 0)
+    
+    return propertyForSale.map((homes) => {
+        const {propertyLocation, priceGBP, roomsM2, Comment,image} = homes
 
-        main.innerHTML += `<div class="card">
-        <img src="${propertyForSale[i].image}" alt="home pic">
+        sQms = roomsM2.reduce((acc,num) => acc + num, 0)
+        
+        return `<section class="card" >
+        <img src="${image}" alt="home pic">
         <div class="card-right">
-        <h2>${propertyForSale[i].propertyLocation}</h2>
-        <h3>${propertyForSale[i].priceGBP}</h3>
-        <p>${propertyForSale[i].Comment}</p>
+        <h2>${propertyLocation}</h2>
+        <h3>${priceGBP}</h3>
+        <p>${Comment}</p>
         <h3>${sQms} sqms</h3>
         </div>
-        </div>`
-    }
-    
+        </section>`
+    })
+    .join("");
+   
 }
-getPropertyHtml()
-
-
-
+container.innerHTML = getPropertyHtml(propertyForSale)
